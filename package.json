@@ -1,6 +1,6 @@
 {
   "name": "milist",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A simple tool to generate a list of Material Icons available in the Material Icons font",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -10,11 +10,12 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
-    "test": "jest tests/simple.test.ts tests/cli.test.ts tests/functional.test.ts",
+    "test": "jest tests/simple.test.ts tests/cli.test.ts tests/functional.test.ts tests/typescript.test.ts",
     "test:watch": "jest --watch",
     "test:simple": "jest tests/simple.test.ts",
     "test:functional": "jest tests/functional.test.ts",
     "test:cli": "jest tests/cli.test.ts",
+    "test:typescript": "jest tests/typescript.test.ts",
     "test:coverage": "jest --coverage",
     "prepublishOnly": "npm run build && npm test"
   },

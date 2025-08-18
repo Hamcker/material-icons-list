@@ -18,10 +18,12 @@ This is a simple tool to generate a list of Material Icons available in the [Mat
 npm i -g milist
 milist --source web > output.txt
 milist --source web --json > output.json
+milist --source web --ts > material-icons.ts
 
 # if you want to use just once
 npx milist --source web > output.txt
 npx milist --source web --json > output.json
+npx milist --source web --ts > material-icons.ts
 ```
 
 ### As a Library (CommonJs)
@@ -52,6 +54,27 @@ console.log(icons); // list of icons in string[] format
 
 * `--json`: With JSON format
 * `--text`: With simple text format (each name in a new line)
+* `--ts`: With TypeScript format (const array + type definition)
+
+#### TypeScript Output Example
+```typescript
+// Generated with: milist --source web --ts > material-icons.ts
+export const icons = [
+  "10k",
+  "10mp",
+  "home",
+  "search",
+  // ... all 3,925+ icons
+] as const;
+
+export type MaterialIcon = typeof icons[number];
+
+// Usage in your TypeScript project:
+import { icons, MaterialIcon } from './material-icons';
+
+const myIcon: MaterialIcon = "home"; // Type-safe!
+const iconExists = icons.includes("search"); // true
+```
 
 ## Testing
 

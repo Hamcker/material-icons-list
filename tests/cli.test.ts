@@ -26,6 +26,7 @@ describe("CLI Tests", () => {
       expect(stdout).toContain("--source");
       expect(stdout).toContain("--json");
       expect(stdout).toContain("--text");
+      expect(stdout).toContain("--ts");
     });
 
     it("should show help when -h is provided", async () => {
