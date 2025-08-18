@@ -3,6 +3,12 @@
 This is a simple tool to generate a list of Material Icons available in the [Material Icons](https://fonts.google.com/icons) font. It uses [This Repo](https://github.com/google/material-design-icons) as a source.
 
 > IMPORTANT: This tool requires Internet connection to work.
+> 
+> **Rate Limits**: This tool uses GitHub's API which has rate limits. For better performance and higher rate limits, set up a GitHub token:
+> 
+> 1. **Environment Variable**: Set `GITHUB_TOKEN` environment variable
+> 2. **Or use .env file**: Copy `env.example` to `.env` and add your token
+> 3. **Get a token**: Visit [GitHub Settings > Tokens](https://github.com/settings/tokens) (no special permissions needed)
 
 ## How to use
 
