@@ -1,6 +1,6 @@
 {
   "name": "milist",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A simple tool to generate a list of Material Icons available in the Material Icons font",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -28,6 +28,10 @@
   ],
   "author": "Hamed Zakeri Miyab",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hamcker/material-icons-list.git"
+  },
   "dependencies": {
     "dotenv": "^17.2.1",
     "node-fetch": "^2.7.0"
