@@ -52,3 +52,25 @@ console.log(icons); // list of icons in string[] format
 
 * `--json`: With JSON format
 * `--text`: With simple text format (each name in a new line)
+
+## Testing
+
+This package includes comprehensive tests:
+
+```bash
+# Run all tests
+npm test
+
+# Run specific test suites
+npm run test:simple      # Basic functionality tests
+npm run test:cli         # Command-line interface tests  
+npm run test:functional  # Real API tests (requires GITHUB_TOKEN)
+
+# Run tests with coverage
+npm run test:coverage
+
+# Watch mode for development
+npm run test:watch
+```
+
+**Note**: Functional tests require a `GITHUB_TOKEN` environment variable for better rate limits when testing against the real GitHub API.

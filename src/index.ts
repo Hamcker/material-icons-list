@@ -73,6 +73,13 @@ async function getChildTreeSha(
  * @returns Promise<string[]> Array of icon names
  */
 export async function list(source: IconSource): Promise<string[]> {
+  // Validate source early
+  if (!["android", "ios", "web"].includes(source)) {
+    throw new Error(
+      `Invalid source: ${source}. Must be one of: android, ios, web`
+    );
+  }
+
   const owner = "google";
   const repo = "material-design-icons";
   const targetPath = `symbols/${source}`;
