@@ -84,12 +84,50 @@ describe("Functional Tests", () => {
       },
       testTimeout * 2
     );
+
+    it(
+      "should successfully fetch codepoints icons",
+      async () => {
+        const icons = await list("code");
+
+        expect(Array.isArray(icons)).toBe(true);
+        expect(icons.length).toBeGreaterThan(4000); // Codepoints should have more icons
+
+        // Check for some known icons
+        expect(icons).toContain("home");
+        expect(icons).toContain("search");
+        expect(icons).toContain("menu");
+
+        // Verify sorting
+        const sortedIcons = [...icons].sort();
+        expect(icons).toEqual(sortedIcons);
+
+        console.log(`✅ Successfully fetched ${icons.length} codepoints icons`);
+      },
+      testTimeout
+    );
+
+    it(
+      "should return more icons from codepoints than other sources",
+      async () => {
+        const [codeIcons, webIcons] = await Promise.all([
+          list("code"),
+          list("web"),
+        ]);
+
+        expect(codeIcons.length).toBeGreaterThan(webIcons.length);
+        console.log(
+          `✅ Codepoints (${codeIcons.length}) > Web (${webIcons.length}) icons`
+        );
+      },
+      testTimeout * 2
+    );
   });
 
   describe("Error Handling", () => {
     it("should handle invalid source gracefully", async () => {
       await expect(list("invalid" as any)).rejects.toThrow(
-        "Invalid source: invalid. Must be one of: android, ios, web"
+        "Invalid source: invalid. Must be one of: android, ios, web, code"
       );
     });
 

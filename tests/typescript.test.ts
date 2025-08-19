@@ -98,7 +98,7 @@ describe("TypeScript Output Tests", () => {
     it(
       "should handle TypeScript format with different sources",
       async () => {
-        const sources = ["web", "android", "ios"];
+        const sources = ["web", "android", "ios", "code"];
 
         for (const source of sources) {
           const { stdout, stderr } = await execAsync(
@@ -112,7 +112,7 @@ describe("TypeScript Output Tests", () => {
           console.log(`✅ TypeScript output works for ${source} source`);
         }
       },
-      testTimeout * 3
+      testTimeout * 4
     );
   });
 });

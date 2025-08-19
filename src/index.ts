@@ -4,7 +4,7 @@ import { config } from "dotenv";
 // Load environment variables from .env file
 config();
 
-export type IconSource = "android" | "ios" | "web";
+export type IconSource = "android" | "ios" | "web" | "code";
 
 interface GitHubApiResponse {
   name: string;
@@ -68,16 +68,68 @@ async function getChildTreeSha(
 }
 
 /**
+ * Fetches icons from the Material Symbols codepoints file
+ * @returns Promise<string[]> Array of icon names from codepoints
+ */
+async function fetchFromCodepoints(): Promise<string[]> {
+  const codepointsUrl =
+    "https://raw.githubusercontent.com/google/material-design-icons/master/variablefont/MaterialSymbolsOutlined%5BFILL%2CGRAD%2Copsz%2Cwght%5D.codepoints";
+
+  const headers: Record<string, string> = {
+    "User-Agent": "milist-nodejs",
+  };
+
+  // Add GitHub token if available (for better rate limits)
+  const token = process.env.GITHUB_TOKEN;
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+
+  try {
+    const response = await fetch(codepointsUrl, { headers });
+
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch codepoints file: ${response.status} ${response.statusText}`
+      );
+    }
+
+    const content = await response.text();
+
+    // Parse codepoints file - each line has format: "icon_name codepoint"
+    const iconNames = content
+      .split("\n")
+      .map((line) => line.trim())
+      .filter((line) => line.length > 0) // Remove empty lines
+      .map((line) => line.split(/\s+/)[0]) // Get first word (icon name)
+      .filter((name) => name && name.length > 0) // Remove empty names
+      .sort();
+
+    return iconNames;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(`Failed to fetch codepoints: ${error.message}`);
+    }
+    throw new Error("Failed to fetch codepoints: Unknown error");
+  }
+}
+
+/**
  * Fetches the list of Material Icons from Google's Material Design Icons repository
- * @param source The source platform (android, ios, or web)
+ * @param source The source platform (android, ios, web, or code)
  * @returns Promise<string[]> Array of icon names
  */
 export async function list(source: IconSource): Promise<string[]> {
   // Validate source early
-  if (!["android", "ios", "web"].includes(source)) {
+  if (!["android", "ios", "web", "code"].includes(source)) {
     throw new Error(
-      `Invalid source: ${source}. Must be one of: android, ios, web`
+      `Invalid source: ${source}. Must be one of: android, ios, web, code`
     );
+  }
+
+  // Handle codepoints source differently
+  if (source === "code") {
+    return await fetchFromCodepoints();
   }
 
   const owner = "google";

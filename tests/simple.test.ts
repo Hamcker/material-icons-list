@@ -3,10 +3,10 @@ import { IconSource } from "../src/index";
 describe("Simple Tests", () => {
   describe("Type validation", () => {
     it("should accept valid icon sources", () => {
-      const validSources: IconSource[] = ["web", "android", "ios"];
+      const validSources: IconSource[] = ["web", "android", "ios", "code"];
 
       validSources.forEach((source) => {
-        expect(["web", "android", "ios"]).toContain(source);
+        expect(["web", "android", "ios", "code"]).toContain(source);
       });
     });
   });
@@ -41,7 +41,7 @@ describe("Simple Tests", () => {
 
       // This test will fail fast before making API calls if source validation works
       await expect(list("invalid" as IconSource)).rejects.toThrow(
-        "Invalid source: invalid. Must be one of: android, ios, web"
+        "Invalid source: invalid. Must be one of: android, ios, web, code"
       );
     });
   });

@@ -19,8 +19,10 @@ function parseArgs(args: string[]): CliArgs {
     switch (arg) {
       case "--source":
         const source = args[i + 1];
-        if (!source || !["android", "ios", "web"].includes(source)) {
-          throw new Error("Invalid source. Must be one of: android, ios, web");
+        if (!source || !["android", "ios", "web", "code"].includes(source)) {
+          throw new Error(
+            "Invalid source. Must be one of: android, ios, web, code"
+          );
         }
         parsed.source = source as IconSource;
         i++; // Skip next argument as it's the value
@@ -87,7 +89,7 @@ Usage:
   milist --help
 
 Options:
-  --source <source>    Source platform (android, ios, web) [required]
+  --source <source>    Source platform (android, ios, web, code) [required]
   --json              Output in JSON format
   --text              Output in text format (default)
   --ts                Output as TypeScript file with const array and type
@@ -97,7 +99,8 @@ Examples:
   milist --source web
   milist --source web --json
   milist --source android --text
-  milist --source web --ts > material-icons.ts
+  milist --source code --ts > material-icons.ts
+  milist --source code > icons-from-codepoints.txt
   
 Note: This tool requires an internet connection to fetch the latest icons.
 `);

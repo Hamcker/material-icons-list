@@ -19,11 +19,13 @@ npm i -g milist
 milist --source web > output.txt
 milist --source web --json > output.json
 milist --source web --ts > material-icons.ts
+milist --source code > codepoints-icons.txt
 
 # if you want to use just once
 npx milist --source web > output.txt
 npx milist --source web --json > output.json
 npx milist --source web --ts > material-icons.ts
+npx milist --source code > codepoints-icons.txt
 ```
 
 ### As a Library (CommonJs)
@@ -49,6 +51,7 @@ console.log(icons); // list of icons in string[] format
 * `android`: will use the android source 
 * `ios`: will use the ios source
 * `web`: will use the web source
+* `code`: will use the codepoints file (most comprehensive list, includes all Material Symbols)
 
 ### Output format
 
