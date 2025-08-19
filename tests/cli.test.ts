@@ -36,14 +36,14 @@ describe("CLI Tests", () => {
       expect(stdout).toContain("Usage:");
     });
 
-    it("should show error when no source is provided", async () => {
-      try {
-        await execAsync(`node "${cliPath}"`);
-        fail("Should have thrown an error");
-      } catch (error: any) {
-        expect(error.code).toBe(1);
-        expect(error.stderr).toContain("Error: --source is required");
-      }
+    it("should use code source as default when no source is provided", async () => {
+      const { stdout } = await execAsync(`node "${cliPath}" --help`);
+
+      // The help should show that source defaults to code
+      expect(stdout).toContain("[default: code]");
+      expect(stdout).toContain(
+        "milist                              # Uses code source (most comprehensive)"
+      );
     });
 
     it("should show error for invalid source", async () => {

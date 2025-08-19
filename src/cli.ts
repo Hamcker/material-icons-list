@@ -85,22 +85,22 @@ function printHelp(): void {
 Material Icons List (milist) - Generate a list of Material Icons
 
 Usage:
-  milist --source <source> [--json|--text|--ts]
+  milist [--source <source>] [--json|--text|--ts]
   milist --help
 
 Options:
-  --source <source>    Source platform (android, ios, web, code) [required]
+  --source <source>    Source platform (android, ios, web, code) [default: code]
   --json              Output in JSON format
   --text              Output in text format (default)
   --ts                Output as TypeScript file with const array and type
   --help, -h          Show this help message
 
 Examples:
-  milist --source web
-  milist --source web --json
-  milist --source android --text
-  milist --source code --ts > material-icons.ts
-  milist --source code > icons-from-codepoints.txt
+  milist                              # Uses code source (most comprehensive)
+  milist --json                       # Uses code source with JSON output
+  milist --ts > material-icons.ts     # Uses code source with TypeScript output
+  milist --source web                 # Uses web source specifically
+  milist --source android --json      # Uses android source with JSON output
   
 Note: This tool requires an internet connection to fetch the latest icons.
 `);
@@ -116,10 +116,12 @@ async function main(): Promise<void> {
       return;
     }
 
+    // Default to 'code' source if not specified (most comprehensive)
     if (!parsedArgs.source) {
-      console.error("Error: --source is required");
-      console.error('Run "milist --help" for usage information');
-      process.exit(1);
+      parsedArgs.source = "code";
+      console.error(
+        "No source specified, using 'code' (most comprehensive list)"
+      );
     }
 
     // Determine output format

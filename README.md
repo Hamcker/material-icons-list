@@ -16,16 +16,16 @@ This is a simple tool to generate a list of Material Icons available in the [Mat
 ```bash
 # if you want to install it globally
 npm i -g milist
-milist --source web > output.txt
-milist --source web --json > output.json
-milist --source web --ts > material-icons.ts
-milist --source code > codepoints-icons.txt
+milist > output.txt                          # Uses codepoints source (most comprehensive)
+milist --json > output.json                  # Uses codepoints source with JSON output
+milist --ts > material-icons.ts              # Uses codepoints source with TypeScript output
+milist --source web > web-icons.txt          # Uses web source specifically
 
 # if you want to use just once
-npx milist --source web > output.txt
-npx milist --source web --json > output.json
-npx milist --source web --ts > material-icons.ts
-npx milist --source code > codepoints-icons.txt
+npx milist > output.txt                      # Uses codepoints source (most comprehensive)
+npx milist --json > output.json              # Uses codepoints source with JSON output
+npx milist --ts > material-icons.ts          # Uses codepoints source with TypeScript output
+npx milist --source web > web-icons.txt      # Uses web source specifically
 ```
 
 ### As a Library (CommonJs)
@@ -51,7 +51,9 @@ console.log(icons); // list of icons in string[] format
 * `android`: will use the android source 
 * `ios`: will use the ios source
 * `web`: will use the web source
-* `code`: will use the codepoints file (most comprehensive list, includes all Material Symbols)
+* `code`: will use the codepoints file (most comprehensive list, includes all Material Symbols) **[DEFAULT]**
+
+**Note**: If `--source` is omitted, `code` is used by default as it provides the most comprehensive list of 4,095+ Material Icons.
 
 ### Output format
 
@@ -61,13 +63,13 @@ console.log(icons); // list of icons in string[] format
 
 #### TypeScript Output Example
 ```typescript
-// Generated with: milist --source web --ts > material-icons.ts
+// Generated with: milist --ts > material-icons.ts (uses code source by default)
 export const icons = [
   "10k",
   "10mp",
   "home",
   "search",
-  // ... all 3,925+ icons
+  // ... all 4,095+ icons from codepoints
 ] as const;
 
 export type MaterialIcon = typeof icons[number];
