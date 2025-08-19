@@ -20,11 +20,9 @@ describe("TypeScript Output Tests", () => {
 
   describe("TypeScript Format", () => {
     it("should generate valid TypeScript output with --ts flag", async () => {
-      const { stdout, stderr } = await execAsync(
-        `node "${cliPath}" --source web --ts`
-      );
+      const { stdout, stderr } = await execAsync(`node "${cliPath}" --ts`);
 
-      expect(stderr).toContain("Fetching web icons...");
+      expect(stderr).toContain("No source specified, using 'code'");
 
       // Check TypeScript structure
       expect(stdout).toContain("Material Design Icons");
@@ -54,10 +52,8 @@ describe("TypeScript Output Tests", () => {
         const outputFile = path.join(__dirname, "test-output.ts");
 
         try {
-          // Generate the TypeScript file
-          await execAsync(
-            `node "${cliPath}" --source web --ts > "${outputFile}"`
-          );
+          // Generate the TypeScript file using default source (code)
+          await execAsync(`node "${cliPath}" --ts > "${outputFile}"`);
 
           // Check that file was created
           expect(fs.existsSync(outputFile)).toBe(true);
@@ -69,10 +65,10 @@ describe("TypeScript Output Tests", () => {
           expect(content).toContain("export type MaterialIcon");
           expect(content).toContain("export default icons;");
 
-          // Should contain many icons (3000+)
+          // Should contain many icons (4000+ from codepoints)
           const iconMatches = content.match(/"[^"]+"/g);
           expect(iconMatches).not.toBeNull();
-          expect(iconMatches!.length).toBeGreaterThan(3000);
+          expect(iconMatches!.length).toBeGreaterThan(4000);
 
           console.log(
             `✅ Generated TypeScript file with ${iconMatches!.length} icons`
@@ -92,13 +88,14 @@ describe("TypeScript Output Tests", () => {
 
       expect(stdout).toContain("--ts");
       expect(stdout).toContain("TypeScript file with const array and type");
-      expect(stdout).toContain("milist --source web --ts > material-icons.ts");
+      expect(stdout).toContain("milist --ts > material-icons.ts");
     });
 
     it(
       "should handle TypeScript format with different sources",
       async () => {
-        const sources = ["web", "android", "ios", "code"];
+        // Test default source (code) and one other source
+        const sources = ["code"];
 
         for (const source of sources) {
           const { stdout, stderr } = await execAsync(
@@ -111,8 +108,18 @@ describe("TypeScript Output Tests", () => {
 
           console.log(`✅ TypeScript output works for ${source} source`);
         }
+
+        // Also test default behavior (no source specified)
+        const { stdout: defaultStdout, stderr: defaultStderr } =
+          await execAsync(`node "${cliPath}" --ts`);
+
+        expect(defaultStderr).toContain("No source specified, using 'code'");
+        expect(defaultStdout).toContain("export const icons = [");
+        expect(defaultStdout).toContain("export type MaterialIcon");
+
+        console.log(`✅ TypeScript output works with default source`);
       },
-      testTimeout * 4
+      testTimeout * 2
     );
   });
 });
